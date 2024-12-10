@@ -1,35 +1,46 @@
 <section class="comment-roulette">
   <div class="comment-roulette__container">
     <h1>Give Away 🎁</h1>
-    <input type="text" [(ngModel)]="youtubeVideoUrl" [placeholder]="placeHolder" />
+    <input type="text" [(ngModel)]="youtubeVideoUrl" [placeholder]="placeHolder" aria-label="URL del video de YouTube" />
     <br>
-    <div>
-      <input type="checkbox" id="includeReplies" [(ngModel)]="includeReplies" />
-      <label for="includeReplies">Agregar respuestas a los comentarios</label>
-    </div>
-    <div>
-      <input type="checkbox" id="filterDuplicates" [(ngModel)]="filterDuplicates" />
-      <label for="filterDuplicates">Filtrar usuarios duplicados</label>
-    </div>
-    <div>
-      <input type="checkbox" id="filterByWords" [(ngModel)]="filterByWords" (change)="toggleWordFilter()" />
-      <label for="filterByWords">Filtrar comentarios por palabras o hashtags</label>
+    <div class="comment-roulette__filters">
+      <div>
+        <input type="checkbox" id="includeReplies" [(ngModel)]="includeReplies" aria-labelledby="label-includeReplies" />
+        <label id="label-includeReplies" for="includeReplies">Agregar respuestas a los comentarios</label>
+      </div>
+      <div>
+        <input type="checkbox" id="filterDuplicates" [(ngModel)]="filterDuplicates" aria-labelledby="label-filterDuplicates" />
+        <label id="label-filterDuplicates" for="filterDuplicates">Filtrar usuarios duplicados</label>
+      </div>
+      <div>
+        <input type="checkbox" id="filterByWords" [(ngModel)]="filterByWords" (change)="toggleWordFilter()" aria-labelledby="label-filterByWords" />
+        <label id="label-filterByWords" for="filterByWords">Filtrar comentarios por palabras o hashtags</label>
+      </div>
     </div>
     <div *ngIf="filterByWords">
-      <input type="text" [(ngModel)]="filterWords" placeholder="Palabras o hashtags, separados por comas" />
+      <input type="text" [(ngModel)]="filterWords" placeholder="Palabras o hashtags, separados por comas" aria-label="Filtrar palabras o hashtags" />
     </div>
     <br>
-    <button (click)="startRoulette()">Elegir Ganador</button>
-    <div class="roulette" *ngIf="isRouletteRunning">
-      <div class="roulette__item">{{ displayComment.text }}</div>
+    <div class="comment-roulette__wrapper-button">
+      <button class="comment-roulette__button" (click)="startRoulette()" aria-label="Elegir Ganador">
+        Elegir Ganador
+      </button>
     </div>
     <div *ngIf="!isRouletteRunning && commentResult">
-      <p>{{ commentResult.text }}</p>
-      <p><a [href]="commentResult.videoUrl" target="_blank">Ir al comentario</a></p>
+      <p class="comment-roulette__winner">🏆</p>
       <p>
-        <strong>Ganador:</strong>
-        <a [href]="commentResult.channelUrl" target="_blank">{{ commentResult.author }}</a>
+        <strong>Ganador: </strong>
+        <a [href]="commentResult.channelUrl" target="_blank" rel="noopener noreferrer">{{ commentResult.author }}</a>
       </p>
+      <p>
+        <a [href]="commentResult.videoUrl" target="_blank" rel="noopener noreferrer">Ir al commentario 🎯</a>
+        </p>
+          {{ commentResult.text }}
+        <p>
+      </p>
+    </div>
+    <div class="roulette" *ngIf="isRouletteRunning">
+      <div *ngIf="displayComment" class="roulette__item">{{ displayComment.text }}</div>
     </div>
   </div>
 </section>
